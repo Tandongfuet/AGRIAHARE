@@ -51,6 +51,10 @@ nav a {
     font-weight: bold;
     padding: 10px 15px;
     transition: background 0.3s ease;
+    -webkit-transition: background 0.3s ease;
+    -moz-transition: background 0.3s ease;
+    -ms-transition: background 0.3s ease;
+    -o-transition: background 0.3s ease;
 }
 
 nav a:hover {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - Enterprise Portal</title>
+  <link rel="stylesheet" href="css/authstyle.css" />
+  <style>
+    .profile-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    input[readonly] {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <h2 style="color: #004aad">My Profile</h2>
+
+    <form id="profileForm">
+      <label>
+        Full Name:
+        <input type="text" id="profileName" readonly />
+      </label>
+      <label>
+        Email:
+        <input type="email" id="profileEmail" readonly />
+      </label>
+      <label>
+        Created At:
+        <input type="text" id="profileCreated" readonly />
+      </label>
+      <button type="button" onclick="window.location.href='./account.html'">Back to Dashboard</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { getProfile } from './js/api.js';
+    import { formatDate, redirectIfNoToken, getElement } from './js/utils.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      redirectIfNoToken();
+
+      try {
+        const data = await getProfile();
+        getElement('profileName').value = data.name;
+        getElement('profileEmail').value = data.email;
+        getElement('profileCreated').value = formatDate(data.createdAt);
+      } catch (err) {
+        alert('Error loading profile: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
